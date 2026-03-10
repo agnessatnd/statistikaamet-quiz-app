@@ -10,9 +10,12 @@ function App() {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [finished, setFinished] = useState(false);
   const [answered, setAnswered] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   const handleAnswer = (index: number) => {
     if (answered) return;
+
+    setSelectedAnswer(index);
 
     const q = questions[currentQuestion];
     const correct = q.correctAnswer === index;
@@ -32,6 +35,7 @@ function App() {
   const nextQuestion = () => {
     setFeedback(null);
     setAnswered(false);
+    setSelectedAnswer(null);
 
     if (currentQuestion + 1 < questions.length) {
       setCurrentQuestion(currentQuestion + 1);
@@ -46,18 +50,33 @@ function App() {
     setFeedback(null);
     setFinished(false);
     setAnswered(false);
+    setSelectedAnswer(null);
   };
 
   if (finished) {
     const score = results.filter((r) => r.isCorrect).length;
 
+    let message = "";
+
+    if (score === questions.length) {
+      message = "Suurepärane tulemus!";
+    } else if (score >= questions.length * 0.75) {
+      message = "Väga hea tulemus!";
+    } else if (score >= questions.length * 0.5) {
+      message = "Hea tulemus!";
+    } else {
+      message = "Järgmine kord läheb kindlasti paremini!";
+    }
+
     return (
       <div>
-        <h1>Viktoriin on lõppenud</h1>
+        <h2>Viktoriin on lõppenud</h2>
 
         <h2>
           Tulemus: {score} / {questions.length}
         </h2>
+
+        <h3>{message}</h3>
 
         <ResultTable results={results} />
 
@@ -75,6 +94,7 @@ function App() {
       <QuestionCard
         question={questions[currentQuestion].question}
         options={questions[currentQuestion].options}
+        selectedAnswer={selectedAnswer}
         onAnswer={handleAnswer}
       />
 
