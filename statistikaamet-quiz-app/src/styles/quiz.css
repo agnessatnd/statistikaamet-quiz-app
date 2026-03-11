@@ -21,14 +21,83 @@
 
 progress {
   width: 100%;
-  margin: 10px 0 20px 0;
+  margin: 12px 0 24px 0;
 }
 
 .feedback {
-  margin-top: 10px;
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+thead {
+  background: #f5f5f5;
+}
+
+th {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+  font-weight: 700;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+td:nth-child(2) {
+  width: 120px;
+}
+
+td:nth-child(3) {
+  width: 80px;
+}
+
+tbody tr:hover {
+  background: #fafafa;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+td:last-child {
+  font-weight: 500;
 }
 
 .quiz-container button {
-  margin-top: auto;
-  align-self: flex-end;
+  margin-top: 25px;
+  align-self: flex-start;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #f3f3f3;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.15s ease;
+}
+
+.quiz-container button:hover {
+  background: #e8e8e8;
+}
+
+.quiz-container button:active {
+  background: #dddddd;
+}
+
+.score {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 8px 0 16px 0;
+}
+
+.score strong {
+  font-weight: 700;
 }

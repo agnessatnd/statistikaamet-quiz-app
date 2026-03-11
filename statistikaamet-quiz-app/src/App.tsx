@@ -76,18 +76,24 @@ function App() {
     }
 
     return (
-      <div>
-        <h2>Viktoriin on lõppenud</h2>
+      <div className="quiz-container">
+        <div className="result-block">
+          <div className="result-summary">
+            <h2>Viktoriin on lõppenud</h2>
 
-        <h2>
-          Tulemus: {score} / {questions.length}
-        </h2>
+            <p className="score">
+              Tulemus:{" "}
+              <strong>
+                {score} / {questions.length}
+              </strong>{" "}
+              – {message}
+            </p>
+          </div>
 
-        <h3>{message}</h3>
+          <ResultTable results={results} />
 
-        <ResultTable results={results} />
-
-        <button onClick={restartQuiz}>Alusta uuesti</button>
+          <button onClick={restartQuiz}>Alusta uuesti</button>
+        </div>
       </div>
     );
   }
