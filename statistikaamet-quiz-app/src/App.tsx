@@ -3,6 +3,7 @@ import { questions } from "./data/question";
 import QuestionCard from "./components/QuestionCard";
 import ResultTable from "./components/ResultTable";
 import type { Result } from "./types/result";
+import "./styles/quiz.css";
 
 function App() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -20,7 +21,13 @@ function App() {
     const q = questions[currentQuestion];
     const correct = q.correctAnswer === index;
 
-    setFeedback(correct ? "Õige vastus!" : "Vale vastus!");
+    if (correct) {
+      setFeedback("Õige vastus!");
+    } else {
+      setFeedback(
+        `Vale vastus! Õige vastus oli: ${q.options[q.correctAnswer]}`,
+      );
+    }
 
     const result: Result = {
       question: q.question,
@@ -86,19 +93,25 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="quiz-container">
       <p>
         Küsimus {currentQuestion + 1} / {questions.length}
       </p>
+
+      <progress
+        value={currentQuestion + (answered ? 1 : 0)}
+        max={questions.length}
+      />
 
       <QuestionCard
         question={questions[currentQuestion].question}
         options={questions[currentQuestion].options}
         selectedAnswer={selectedAnswer}
+        answered={answered}
         onAnswer={handleAnswer}
       />
 
-      {feedback && <p>{feedback}</p>}
+      {feedback && <p className="feedback">{feedback}</p>}
 
       {answered && (
         <button onClick={nextQuestion}>
