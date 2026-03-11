@@ -20,7 +20,9 @@ export default function ResultTable({ results }: Props) {
           <tr key={index}>
             <td>{r.question}</td>
             <td>{r.selectedAnswer}</td>
-            <td>{r.isCorrect ? "Õige" : "Vale"}</td>
+            <td style={{ color: r.isCorrect ? "green" : "red" }}>
+              {r.isCorrect ? "Õige" : "Vale"}
+            </td>
           </tr>
         ))}
       </tbody>
