@@ -60,26 +60,63 @@ function App() {
     setSelectedAnswer(null);
   };
 
-  if (finished) {
-    const score = results.filter((r) => r.isCorrect).length;
+  const score = results.filter((r) => r.isCorrect).length;
 
-    let message = "";
+  let message = "";
+  if (score === questions.length) {
+    message = "Suurepärane tulemus!";
+  } else if (score >= questions.length * 0.75) {
+    message = "Väga hea tulemus!";
+  } else if (score >= questions.length * 0.5) {
+    message = "Hea tulemus!";
+  } else {
+    message = "Järgmine kord läheb kindlasti paremini!";
+  }
 
-    if (score === questions.length) {
-      message = "Suurepärane tulemus!";
-    } else if (score >= questions.length * 0.75) {
-      message = "Väga hea tulemus!";
-    } else if (score >= questions.length * 0.5) {
-      message = "Hea tulemus!";
-    } else {
-      message = "Järgmine kord läheb kindlasti paremini!";
-    }
+  return (
+    <>
+      <div className="top-bar"></div>
+      <header className="stat-header">
+        <div className="header-inner">
+          <img src="/ES_Logo.png" alt="Eesti Statistika" />
+        </div>
+      </header>
 
-    return (
       <div className="quiz-container">
-        <div className="result-block">
-          <div className="result-summary">
-            <h2>Viktoriin on lõppenud</h2>
+        {!finished ? (
+          <>
+            <h1>Viktoriin</h1>
+
+            <p>
+              Küsimus {currentQuestion + 1} / {questions.length}
+            </p>
+
+            <progress
+              value={currentQuestion + (answered ? 1 : 0)}
+              max={questions.length}
+            />
+
+            <QuestionCard
+              question={questions[currentQuestion].question}
+              options={questions[currentQuestion].options}
+              selectedAnswer={selectedAnswer}
+              answered={answered}
+              onAnswer={handleAnswer}
+            />
+
+            {feedback && <p className="feedback">{feedback}</p>}
+
+            {answered && (
+              <button onClick={nextQuestion}>
+                {currentQuestion + 1 === questions.length
+                  ? "Vaata tulemusi"
+                  : "Järgmine küsimus"}
+              </button>
+            )}
+          </>
+        ) : (
+          <>
+            <h1>Viktoriin on lõppenud</h1>
 
             <p className="score">
               Tulemus:{" "}
@@ -88,45 +125,15 @@ function App() {
               </strong>{" "}
               – {message}
             </p>
-          </div>
 
-          <ResultTable results={results} />
+            <ResultTable results={results} />
 
-          <button onClick={restartQuiz}>Alusta uuesti</button>
-        </div>
+            <button onClick={restartQuiz}>Alusta uuesti</button>
+          </>
+        )}
       </div>
-    );
-  }
-
-  return (
-    <div className="quiz-container">
-      <p>
-        Küsimus {currentQuestion + 1} / {questions.length}
-      </p>
-
-      <progress
-        value={currentQuestion + (answered ? 1 : 0)}
-        max={questions.length}
-      />
-
-      <QuestionCard
-        question={questions[currentQuestion].question}
-        options={questions[currentQuestion].options}
-        selectedAnswer={selectedAnswer}
-        answered={answered}
-        onAnswer={handleAnswer}
-      />
-
-      {feedback && <p className="feedback">{feedback}</p>}
-
-      {answered && (
-        <button onClick={nextQuestion}>
-          {currentQuestion + 1 === questions.length
-            ? "Vaata tulemusi"
-            : "Järgmine küsimus"}
-        </button>
-      )}
-    </div>
+      <footer className="stat-footer"></footer>
+    </>
   );
 }
 
